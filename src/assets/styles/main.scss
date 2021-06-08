@@ -1,0 +1,30 @@
+@import '_variables.scss';
+
+* {
+    margin: 0;
+    padding: 0
+}
+
+body {
+    font-family: $default-font;
+    background-color: $body-bg;
+    font-size: $default-font-size;
+    color: $font-color
+}
+
+main {
+    background: url('../img/bg-image.svg') no-repeat center;
+    background-size: 35%;
+    @media screen and (max-width: 768px) {
+        background-size: 100%;
+    }
+    min-height: 100vh;
+}
+
+.flex {
+    display: flex;
+    gap: 1em;
+    &.align-center {
+        align-items: center;
+    }
+}
