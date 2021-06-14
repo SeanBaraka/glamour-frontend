@@ -27,4 +27,7 @@ main {
     &.align-center {
         align-items: center;
     }
+    &.flexed-column {
+        flex-flow: column;
+    }
 }

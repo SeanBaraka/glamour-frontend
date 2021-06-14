@@ -5,21 +5,26 @@
       <CardInput prefixIcon="ic-mail.svg" inputType="email" placeholderText="Enter your email address or username" />
       <CardInput prefixIcon="ic-lock.svg" inputType="password" placeholderText="Enter your password" />
       <Checkbox labelText="Remember Me" />
-      <Button text="Sign In" />
+      <Button text="Sign In" @clicked="handleLogin"/>
       <p>Forgot Password ? <span> Reset from here</span></p>
     </div>
   </div>
 </template>
 
 <script>
-import Button from "@/components/Button.vue";
-import CardInput from "@/components/CardInput.vue";
-import Checkbox from "@/components/Checkbox.vue";
+import Button from "@/components/ui/Button.vue";
+import CardInput from "@/components/ui/CardInput.vue";
+import Checkbox from "@/components/ui/Checkbox.vue";
 import { defineComponent } from "@vue/runtime-core";
 
 export default defineComponent({
   components: { CardInput, Checkbox, Button },
-    name: 'Login'
+    name: 'Login',
+    methods: {
+      handleLogin() {
+        this.$router.push('dashboard')
+      }
+    }
 })
 </script>
 

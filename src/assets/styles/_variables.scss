@@ -1,12 +1,32 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
-
+// colors, where it all begins..
 $secondary-color: #E83E8C;  
 $primary-color: #673BB7;
 $card-bg: #FFFFFF30;
 $body-bg: #F6FFFF;
 $input-outline: #9F9F9F;
 $font-color: #5C5C5C;
+$secondary-bg: #F7F7F7;
 
 // the fonts, some cool fonts actually
 $default-font: 'Poppins', sans-serif;
-$default-font-size: 13px
+$default-font-size: 13px;
+
+// font weights
+$fw-semi-bold: 600;
+$fw-medium: 500;
+
+@font-face {
+    font-family: 'Poppins';
+    src: url("~@/assets/fonts/Poppins-Regular.ttf");
+    font-weight: normal;
+}
+@font-face {
+    font-family: 'Poppins';
+    src: url("~@/assets/fonts/Poppins-Medium.ttf");
+    font-weight: $fw-medium;
+}
+@font-face {
+    font-family: 'Poppins';
+    src: url("~@/assets/fonts/Poppins-SemiBold.ttf");
+    font-weight: $fw-semi-bold;
+}

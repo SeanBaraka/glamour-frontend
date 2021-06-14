@@ -1,6 +1,6 @@
 <template>
   <div class="button-container secondary">
-      <button>{{text}}</button>
+      <button @click="$emit('clicked')">{{text}}</button>
   </div>
 </template>
 
@@ -25,6 +25,7 @@ export default defineComponent({
     text-align: center;
     font-weight: 600;
     font-size: 1.2em;
+    cursor: pointer;
     &.secondary {
         background: $secondary-color;
         color: #fff
@@ -36,6 +37,7 @@ export default defineComponent({
         color: inherit;
         border: none;
         outline: none;
+        cursor: inherit;
     }
 }
 </style>
