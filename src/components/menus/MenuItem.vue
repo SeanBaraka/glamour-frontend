@@ -1,5 +1,5 @@
 <template>
-  <li class="menu-item">
+  <li class="menu-item" @click="navigateTo(to)">
       <div class="flex align-center">
           <img :src="require(`@/assets/icons/${icon}`)" alt="" width="15">
           <div class="mgl-1">
@@ -11,22 +11,30 @@
   </li>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import { defineComponent } from "@vue/runtime-core"
+
+export default defineComponent({
     name: 'NavMenu',
     props: {
         icon: String,
         to: String
+    },
+    methods: {
+        navigateTo (path: string): void {
+            this.$router.push(path)
+        }
     }
-}
+})
 </script>
 
 <style scoped lang="scss">
 @import '@/assets/styles/_variables.scss';
 li {
     margin: 1.5em 0;
-    // background: red;
     padding: 0 1.5em;
+    font-size: 12px;
+    cursor: pointer
 }
 .active {
     color: $primary-color;

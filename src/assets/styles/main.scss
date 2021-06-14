@@ -27,7 +27,29 @@ main {
     &.align-center {
         align-items: center;
     }
+    &.justify-between {
+        justify-content: space-between;
+    }
     &.flexed-column {
         flex-flow: column;
     }
+    &.row-reverse {
+        flex-flow: row-reverse;
+    }
+}
+
+.top-nav {
+    width: calc(100vw - 280px);
+    position: fixed;
+    top: 0;
+    left: 220px
+}
+.page-section {
+    position: fixed;
+    top: 5.25em;
+    min-height: calc(100vh - 50px);
+    left: 220px;
+    padding: 1em 2em;
+    width: calc(100vw - 280px);
+    overflow-y: auto;
 }

@@ -1,5 +1,6 @@
 <template>
-  <div class="button-container secondary">
+  <div class="button-container secondary" :class="{'flex': icon !== undefined}">
+      <img :src="require(`@/assets/icons/${icon}`)" alt="" width="20" v-if="icon">
       <button @click="$emit('clicked')">{{text}}</button>
   </div>
 </template>
@@ -10,7 +11,8 @@ import { defineComponent } from "@vue/runtime-core";
 export default defineComponent({
     name: 'Button',
     props: {
-        text: String
+        text: String,
+        icon: String
     }
 })
 </script>

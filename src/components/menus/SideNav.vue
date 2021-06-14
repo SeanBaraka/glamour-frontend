@@ -8,11 +8,11 @@
             <div class="menu-items">
             <NavMenu>
               <MenuItem to="dashboard" icon="ic-home.svg">Dashboard</MenuItem>
-              <MenuItem to="customers" icon="ic-customers.svg">Customers</MenuItem>
-              <MenuItem to="stylists" icon="ic-stylists.svg">Stylists</MenuItem>
-              <MenuItem to="schedule" icon="ic-schedule.svg">Schedule</MenuItem>
-              <MenuItem to="reservations" icon="ic-calendar.svg">Reservations</MenuItem>
-              <MenuItem to="settings" icon="ic-config.svg">Settings</MenuItem>
+              <MenuItem to="dashboard" icon="ic-customers.svg">Customers</MenuItem>
+              <MenuItem to="dashboard" icon="ic-stylists.svg">Stylists</MenuItem>
+              <MenuItem to="dashboard" icon="ic-schedule.svg">Schedule</MenuItem>
+              <MenuItem to="dashboard" icon="ic-calendar.svg">Reservations</MenuItem>
+              <MenuItem to="dashboard" icon="ic-config.svg">Settings</MenuItem>
             </NavMenu>
             </div>
           </div>
@@ -39,7 +39,19 @@ aside {
   width: 220px;
   box-shadow: .5em 0 2em rgba(0,0,0,.1);
   .navigation-menu {
-    padding: 2em 1em
+    padding: 2em 1em;
+    .logo {
+      position: relative;
+      top: 4em;
+      width: 70%;
+      margin: 2em 1.5em;
+      img {
+        width: 100%
+      }
+    }
+    .menu-items {
+      margin: 3em 0
+    }
   }
 }
 </style>
