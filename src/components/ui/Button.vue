@@ -1,6 +1,6 @@
 <template>
   <div class="button-container secondary" :class="{'flex': icon !== undefined}">
-      <img :src="require(`@/assets/icons/${icon}`)" alt="" width="20" v-if="icon">
+      <img :src="require(`@/assets/icons/${icon}`)" alt="" width="18" v-if="icon">
       <button @click="$emit('clicked')">{{text}}</button>
   </div>
 </template>

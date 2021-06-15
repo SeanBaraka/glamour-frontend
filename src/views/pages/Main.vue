@@ -13,9 +13,28 @@
             <div class="cont flex align-center justify-between">
               <h3 class="section-heading">Reservations</h3>
               <div class="quick-actions flex align-center">
-                <Button text="Create reservation" icon="" @clicked="addReservation" />
+                <Button text="Create reservation" icon="ic-plus.svg" @clicked="addReservation" />
+                <router-link to="/dashboard/reservations">View All</router-link>
               </div>
             </div>
+            <div class="reservations-list">
+                <div class="app-table">
+                  <div class="grid table-row bold table-header">
+                    <div></div>
+                    <di>Service</di>
+                    <div>Time</div>
+                    <div>Order Status</div>
+                    <di>Stylist</di>
+                  </div>
+                  <div>
+                    <TableRow clientName="Joyce Kamengele" timeAllocated="09.00 - 10.00" orderStatus="confirmed" service="Hair Dressing" stylist="Loise K."/>
+                    <TableRow :even="rowEven" clientName="Anna Mwongeli" timeAllocated="09.00 - 10.00" orderStatus="pending" service="Manicure" stylist="Loise K."/>
+                    <TableRow clientName="Catherine Mumo" timeAllocated="09.00 - 10.00" orderStatus="confirmed" service="Spa Service" stylist="Loise K."/>
+                    <TableRow :even="rowEven" clientName="Juliana Kaluki" timeAllocated="09.00 - 10.00" orderStatus="pending" service="Manicure" stylist="Syombua M"/>
+                     <TableRow clientName="Catherine Mumo" timeAllocated="09.00 - 10.00" orderStatus="confirmed" service="Spa Service" stylist="Loise K."/>
+                  </div>
+                </div>
+              </div>
           </div>
         </div>
         <div class="calendar-stylists">
@@ -29,9 +48,15 @@
 <script lang="ts">
 import Button from '@/components/ui/Button.vue'
 import SummaryCard from '@/components/ui/SummaryCard.vue'
+import TableRow from '@/components/ui/TableRow.vue'
 import { defineComponent } from '@vue/runtime-core'
 export default defineComponent({
-  components: { SummaryCard, Button },
+  components: { SummaryCard, Button, TableRow },
+  data () {
+    return {
+      rowEven: true
+    }
+  },
   methods: {
     addReservation (): void {
       // do something here.. possibly launch 
@@ -48,7 +73,27 @@ export default defineComponent({
 .calendar-stylists {
   flex: 1;
 }
+.summaries,.cont {
+  width: 90%;
+  margin: 0 auto;
+}
 .reservations {
-  margin: 2.5em .5em
+  width: 90%;
+  margin: 2.5em auto;
+  .button-container {
+    max-width: 180px;
+    font-size: 11px;
+  }
+  .quick-actions {
+    gap: 2em;
+    a {
+      display: inline-block;
+      padding: .5em 3em;
+      font-size: 12px;
+    }
+  }
+  .table-header {
+    grid-template-columns: 200px 150px 150px 150px 150px;
+  }
 }
 </style>
