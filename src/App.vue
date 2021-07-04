@@ -1,6 +1,7 @@
 <template>
   <main>
     <router-view/>
+    <pop-tip-alert/>
   </main>
 </template>
 

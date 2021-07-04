@@ -1,7 +1,8 @@
 <template>
-  <div class="button-container secondary" :class="{'flex': icon !== undefined}">
+  <div class="button-container" :class="{'flex': icon !== undefined || postfixIcon !== undefined}">
       <img :src="require(`@/assets/icons/${icon}`)" alt="" width="18" v-if="icon">
       <button @click="$emit('clicked')">{{text}}</button>
+      <img class="reverse" :src="require(`@/assets/icons/${postfixIcon}`)" alt="" width="12" v-if="postfixIcon">
   </div>
 </template>
 
@@ -12,7 +13,8 @@ export default defineComponent({
     name: 'Button',
     props: {
         text: String,
-        icon: String
+        icon: String,
+        postfixIcon: String
     }
 })
 </script>
@@ -23,13 +25,28 @@ export default defineComponent({
 .button-container {
     margin: 2em 0;
     border-radius: .5em;
-    padding: .75em 2em;
+    padding: .75em 1em;
     text-align: center;
     font-weight: 600;
     font-size: 1.2em;
     cursor: pointer;
+    &.sm {
+        padding: .5em 2em;
+        font-size: 1em;
+    }
+    &.short {
+        padding: .5em 1em;
+    }
+    &.inactive {
+        background: $input-background;
+        font-weight: 700;
+    }
     &.secondary {
         background: $secondary-color;
+        color: #fff
+    }
+    &.primary {
+        background: $primary-color;
         color: #fff
     }
     button {
@@ -40,6 +57,9 @@ export default defineComponent({
         border: none;
         outline: none;
         cursor: inherit;
+    }
+    .reverse {
+        transform: rotate(180deg);
     }
 }
 </style>

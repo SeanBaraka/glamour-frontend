@@ -31,13 +31,25 @@ export default defineComponent({
 <style scoped lang="scss">
 @import '@/assets/styles/_variables.scss';
 li {
-    margin: 1.5em 0;
+    margin: 1.5em;
     padding: 0 1.5em;
     font-size: 12px;
-    cursor: pointer
+    cursor: pointer;
 }
 .active {
     color: $primary-color;
+    position: relative;
+    &::before {
+        content: '';
+        position: absolute;
+        width: 3.45px;
+        height: 12px;
+        background: $primary-color;
+        border-radius: 35%;
+        left: -4em;
+        top: 50%;
+        transform: translateY(-50%);
+    }
 }
 a {
     text-decoration: none;

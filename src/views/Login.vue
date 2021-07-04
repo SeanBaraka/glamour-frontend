@@ -5,7 +5,7 @@
       <CardInput prefixIcon="ic-mail.svg" inputType="email" placeholderText="Enter your email address or username" />
       <CardInput prefixIcon="ic-lock.svg" inputType="password" placeholderText="Enter your password" />
       <Checkbox labelText="Remember Me" />
-      <Button text="Sign In" @clicked="handleLogin"/>
+      <Button text="Sign In" class="secondary" @clicked="handleLogin"/>
       <p>Forgot Password ? <span> Reset from here</span></p>
     </div>
   </div>

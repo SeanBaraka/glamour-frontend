@@ -13,7 +13,11 @@
             <div class="cont flex align-center justify-between">
               <h3 class="section-heading">Reservations</h3>
               <div class="quick-actions flex align-center">
-                <Button text="Create reservation" icon="ic-plus.svg" @clicked="addReservation" />
+                <Button text="Create reservation" class="secondary" icon="ic-plus.svg" @clicked="addReservation" />
+                <Popup class="add-reservation" ref="addreservation">
+                  <add-reservation />
+                </Popup>
+                
                 <router-link to="/dashboard/reservations">View All</router-link>
               </div>
             </div>
@@ -47,11 +51,14 @@
 
 <script lang="ts">
 import Button from '@/components/ui/Button.vue'
+import Popup from '@/components/ui/Popup.vue'
 import SummaryCard from '@/components/ui/SummaryCard.vue'
 import TableRow from '@/components/ui/TableRow.vue'
 import { defineComponent } from '@vue/runtime-core'
+import AddReservation from './AddReservation.vue'
+
 export default defineComponent({
-  components: { SummaryCard, Button, TableRow },
+  components: { SummaryCard, Button, TableRow, Popup, AddReservation },
   data () {
     return {
       rowEven: true
@@ -60,6 +67,8 @@ export default defineComponent({
   methods: {
     addReservation (): void {
       // do something here.. possibly launch 
+      const launchModal: any = this.$refs.addreservation
+      launchModal.open()
     }
   }
 

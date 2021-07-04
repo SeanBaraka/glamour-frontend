@@ -7,12 +7,13 @@
             </div>
             <div class="menu-items">
             <NavMenu>
-              <MenuItem to="dashboard" icon="ic-home.svg">Dashboard</MenuItem>
-              <MenuItem to="dashboard" icon="ic-customers.svg">Customers</MenuItem>
-              <MenuItem to="dashboard" icon="ic-stylists.svg">Stylists</MenuItem>
-              <MenuItem to="dashboard" icon="ic-schedule.svg">Schedule</MenuItem>
-              <MenuItem to="dashboard" icon="ic-calendar.svg">Reservations</MenuItem>
-              <MenuItem to="dashboard" icon="ic-config.svg">Settings</MenuItem>
+              <MenuItem to="/dashboard/summary" icon="ic-home.svg">Dashboard</MenuItem>
+              <MenuItem to="/dashboard/customers" icon="ic-customers.svg">Customers</MenuItem>
+              <MenuItem to="/dashboard/stylists" icon="ic-stylists.svg">Stylists</MenuItem>
+              <MenuItem to="/dashboard/stylists" icon="ic-stylists.svg">Services</MenuItem>
+              <MenuItem to="/dashboard/schedule" icon="ic-schedule.svg">Schedule</MenuItem>
+              <MenuItem to="/dashboard/reservations" icon="ic-calendar.svg">Reservations</MenuItem>
+              <MenuItem to="/dashboard/settings" icon="ic-config.svg">Settings</MenuItem>
             </NavMenu>
             </div>
           </div>
