@@ -2,7 +2,7 @@
   <div class="split-input-container">
       <div class="split-items flexed align-center">
           <label :for="id">{{label}}</label>
-          <input :type="type" :id="id" :placeholder="placeholder">
+          <input :type="type" v-model="value"  @change="$emit('on-change', value)" :id="id" :placeholder="placeholder">
       </div>
   </div>
 </template>
@@ -16,6 +16,11 @@ export default defineComponent({
         type: String,
         placeholder: String,
         label: String
+    },
+    data () {
+        return {
+            value: ''
+        }
     }
 })
 </script>

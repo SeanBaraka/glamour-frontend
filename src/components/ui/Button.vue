@@ -30,6 +30,10 @@ export default defineComponent({
     font-weight: 600;
     font-size: 1.2em;
     cursor: pointer;
+    &.disabled {
+        pointer-events: none;
+        cursor: not-allowed;
+    }
     &.sm {
         padding: .5em 2em;
         font-size: 1em;
@@ -38,8 +42,9 @@ export default defineComponent({
         padding: .5em 1em;
     }
     &.inactive {
-        background: $input-background;
-        font-weight: 700;
+        background: $input-background !important;
+        font-weight: 700 !important;
+        color: $font-color !important
     }
     &.secondary {
         background: $secondary-color;

@@ -29,6 +29,10 @@ export default {
     background: $input-background;
     border-radius: 4em;
     font-size: 10px;
+    &.md {
+        font-size: 12px;
+        padding: .4em 1.5em
+    }
     font-weight: $fw-semi-bold;
     &.primary {
         border: 2px solid $primary-color;

@@ -8,6 +8,12 @@ import PopTipAlert from './components/alerts/poptip'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 
+declare module '@vue/runtime-core' {
+    interface ComponentCustomProperties {
+      $alert: any;
+    }
+  }
+
 axios.defaults.baseURL = "https://api.glamour.seanbaraka.dev"
 const app = createApp(App) //  created the app instance
 

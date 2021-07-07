@@ -55,5 +55,10 @@ export default defineComponent({
         border: 2px solid $primary-stroke-color;
         color: $body-bg;
     }
+    &.secondary-pill {
+        background: $secondary-color;
+        border: 2px solid $primary-stroke-color;
+        color: $body-bg;
+    }
 }
 </style>
