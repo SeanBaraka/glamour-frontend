@@ -4,12 +4,12 @@
         <input type="text" :placeholder="placeholder">
         <img src="@/assets/icons/arrow-down.svg" alt="" width="20">
     </div>
-    <div class="dropdown-container" @mouseleave="menuOpen = false" :class="{'active': menuOpen}">
+    <div class="dropdown-container" @click="menuOpen = false" @mouseleave="menuOpen = false" :class="{'active': menuOpen}">
         <div class="dropdown-menu">
-            <slot></slot>
+            <slot @click="menuOpen = false"></slot>
         </div>
     </div>
-    
+
   </div>
 </template>
 

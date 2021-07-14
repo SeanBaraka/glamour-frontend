@@ -2,10 +2,13 @@
     <div class="add-reservation">
         <div class="dialog-header">Create Reservation</div>
             <div class="client-search-results flex align-center">
-                <div class="client-search" v-if="!newCustomer && !customerFound && !searchResults">
+                <div class="flex align-center client-search" v-if="!newCustomer && !customerFound && !searchResults">
                     <!-- our custom client search input box -->
                     <InputButton class="primary" :loading="searching" @on-submit="searchCustomer($event)" placeholder="Search Customer" icon="ic-search-alt.svg" />
+                    <!-- add new customer -->
+                    <Button text="Add New" @click="newCustomer = true" icon="ic-add-user.svg" class="primary sm short" />
                 </div>
+
                 <div class="search-results mgy-1" v-if="searchResults && customerFound">
                     <div class="flex customer-telephone align-center">
                         <!-- customer name -->
@@ -15,20 +18,18 @@
                     </div>
                 </div>
                 <div class="search-results" v-if="searchResults && !customerFound">
-                    <div class="flex customer-telephone align-center">
+                    <div class="flex align-center">
                         <!-- a customer was not found -->
                         <div class="not-found flex align-center">
                             <img src="@/assets/icons/ic-info.svg" alt="" width="20">
                             <p class="sm semi-bold text-danger">No Customer Found</p>
                         </div>
-                        <!-- add new customer -->
-                        <Button text="Add New" v-if="!newCustomer" @click="newCustomer = true" icon="ic-add-user.svg" class="primary sm short" />
                     </div>
                 </div>
             </div>
             <!-- New Customer Registration -->
             <transition name="slide-fade">
-                <div class="customer-registration mgy-1" v-if="newCustomer && searchResults && !customerFound">
+                <div class="customer-registration mgy-1" v-if="newCustomer && !customerFound">
                     <div class="dialog-header md">New Customer Registration</div>
                     <div class="form-input-group flex align-center">
                         <ButtonGroup>
@@ -47,7 +48,7 @@
                     </div>
                 </div>
             </transition>
-            <div class="mgy-1" v-if="showServices">
+            <div class="mgy-1" v-if="showServices && !newCustomer">
                 <div class="dialog-header sm">
                     Select The Desired Service
                 </div>
@@ -56,13 +57,13 @@
                     <div class="dialog-header xsm">Salon Services</div>
                     <div class="services">
                         <!-- the various serives belonging to the specified category -->
-                        <select-pill @click="handleServiceAdd('crotcheting')" label="Crotcheting" id="crotcheting"/>
-                        <select-pill @click="handleServiceAdd('weaving')" label="Weaving" id="weaving"/>
-                        <select-pill @click="handleServiceAdd('wash')" label="Wash and Blow dry" id="wash"/>
-                        <select-pill @click="handleServiceAdd('treatment')" label="Treatment" id="treat"/>
-                        <select-pill @click="handleServiceAdd('dye')" label="Dye" id="dye"/>
-                        <select-pill @click="handleServiceAdd('coloring')" label="Coloring" id="colouring"/>
-                        <select-pill @click="handleServiceAdd('braiding')" label="Braiding and Retouch" id="br"/>
+                        <select-pill @click="handleServiceAdd({order: 'crotcheting'})" label="Crotcheting" id="crotcheting"/>
+                        <select-pill @click="handleServiceAdd({order: 'weaving'})" label="Weaving" id="weaving"/>
+                        <select-pill @click="handleServiceAdd({ order: 'wash'})" label="Wash and Blow dry" id="wash"/>
+                        <select-pill @click="handleServiceAdd({order: 'treatment'})" label="Treatment" id="treat"/>
+                        <select-pill @click="handleServiceAdd({ order: 'dye'})" label="Dye" id="dye"/>
+                        <select-pill @click="handleServiceAdd({ order: 'coloring'})" label="Coloring" id="colouring"/>
+                        <select-pill @click="handleServiceAdd({ order: 'braiding'})" label="Braiding and Retouch" id="br"/>
                         <!-- <select-pill label="Wash and Set" id="ws"/>
                         <select-pill label="Own Retouch" id="or"/>
                         <select-pill label="Retouch" id="retouch"/> -->
@@ -72,14 +73,14 @@
                     <div class="dialog-header xsm">Beauty Services</div>
                     <div class="services">
                         <!-- the various serives belonging to the specified category -->
-                        <select-pill @click="handleServiceAdd('gel')" label="Gel Polish" id="gel"/>
-                        <select-pill @click="handleServiceAdd('pedicure')" label="Pedicure" id="pedi"/>
-                        <select-pill @click="handleServiceAdd('polish')" label="Polish" id="pol"/>
-                        <select-pill @click="handleServiceAdd('stickons')" label="Stickons / Gel" id="sg"/>
-                        <select-pill @click="handleServiceAdd('accrylics')" label="Accrylics" id="acc"/>
-                        <select-pill @click="handleServiceAdd('wax')" label="Waxing" id="wax"/>
-                        <select-pill @click="handleServiceAdd('heena')" label="Heena" id="heena"/>
-                        <select-pill @click="handleServiceAdd('massage')" label="Full body Massage" id="massage"/>
+                        <select-pill @click="handleServiceAdd({order: 'gel'})" label="Gel Polish" id="gel"/>
+                        <select-pill @click="handleServiceAdd({order: 'pedicure'})" label="Pedicure" id="pedi"/>
+                        <select-pill @click="handleServiceAdd({order: 'polish'})" label="Polish" id="pol"/>
+                        <select-pill @click="handleServiceAdd({order: 'stickons'})" label="Stickons / Gel" id="sg"/>
+                        <select-pill @click="handleServiceAdd({order: 'accrylics'})" label="Accrylics" id="acc"/>
+                        <select-pill @click="handleServiceAdd({order: 'wax'})" label="Waxing" id="wax"/>
+                        <select-pill @click="handleServiceAdd({order: 'heena'})" label="Heena" id="heena"/>
+                        <select-pill @click="handleServiceAdd({order: 'massage'})" label="Full body Massage" id="massage"/>
                     </div>
                 </div>
             </div>
@@ -89,7 +90,7 @@
                         <div class="dialog-header sm">Favourite Services</div>
                             <div class="services">
                                 <div class="flex align-center">
-                                    <select-pill v-for="service of reservation.services" :key="service" :label="service" class="primary-pill" />
+                                    <select-pill v-for="service of reservation.orderServices" :key="service.order" :label="service.order" class="primary-pill" />
                                 </div>
                             </div>
                         </div>
@@ -101,16 +102,23 @@
                                 <div>Date</div>
                                 <div>Time</div>
                             </div>
-                            <div class="mgy-2 grid table-row table-body" v-for="service of reservation.services" :key="service">
-                                <div>{{service}}</div>
-                                <InputDropDown placeholder="Select Attendant">
-                                    <input-drop-down-item>Louise K</input-drop-down-item>
-                                    <input-drop-down-item>Jennifer</input-drop-down-item>
-                                    <input-drop-down-item>Lynnet M.</input-drop-down-item>
-                                    <input-drop-down-item>Catherine</input-drop-down-item>
+                            <div class="mgy-2 grid table-row table-body" v-for="(service, index) of reservation.orderServices" :key="service.order">
+                                <div>{{service.order}}</div>
+                                <InputDropDown :placeholder="service.attendant || 'Select Attendant'">
+                                    <input-drop-down-item @click="selectAttendant('Loise', index)">Louise K</input-drop-down-item>
+                                    <input-drop-down-item @click="selectAttendant('Jennifer', index)">Jennifer</input-drop-down-item>
+                                    <input-drop-down-item @click="selectAttendant('Lynnet', index)">Lynnet M.</input-drop-down-item>
+                                    <input-drop-down-item @click="selectAttendant('Catherine', index)">Catherine</input-drop-down-item>
                                 </InputDropDown>
-                                <div>7/7/2021</div>
-                                <div>10:00 - 11:00</div>
+                                <div>
+                                  <DateInput placeholder="dd/mm/yyyy" @on-changed="service.date = $event" />
+                                </div>
+                                <div>
+                                  <div class="flex">
+                                    <TimeInput placeholder="hh:mm" @on-changed="service.startTime = $event"/>
+                                    <TimeInput placeholder="hh:mm" @on-changed="service.endTime = $event" />
+                                  </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -119,8 +127,10 @@
         <div class="mgy-1 dialog-footer">
             <div class="text-center">
                 <div class="flex justify-center">
-                    <Button text="Cancel" class="inactive sm" />
-                    <Button @clicked="moveNextPage" text="Reserve Service" class="primary sm"/>
+<!--                    <Button text="Cancel" class="inactive sm" v-if="showServices && !customerFound" />-->
+                  <Button text="Back" class="inactive sm" @click="backPage" v-if="customerAdding || customerFound"/>
+                  <Button @clicked="moveNextPage" postfix-icon="ic-back.svg" text="Next" class="primary sm" v-if="!validReservation"/>
+                  <Button @clicked="handleReservation" text="Reserve Service" class="primary sm" v-if="validReservation"/>
                 </div>
             </div>
     </div>
@@ -138,20 +148,31 @@ import SplitInput from '@/components/ui/SplitInput.vue'
 import { defineComponent } from '@vue/runtime-core'
 import InputDropDown from '@/components/ui/InputDropDown.vue'
 import InputDropDownItem from '@/components/ui/InputDropDownItem.vue'
+import DateInput from "@/components/ui/DateInput.vue";
+import TimeInput from "@/components/ui/TimeInput.vue";
 
 export default defineComponent({
-  components: {InputButton, InfoPill, SelectPill, Button, ButtonGroup, ButtonItem, FormInput, SplitInput, InputDropDown, InputDropDownItem  },
+  components: {
+    TimeInput,
+    DateInput,
+    InputButton, InfoPill, SelectPill, Button, ButtonGroup, ButtonItem, FormInput, SplitInput, InputDropDown, InputDropDownItem  },
     data () {
         return {
+          button:{
+            text: 'Next',
+            icon: 'ic-back.svg'
+          },
             reservation: {
+              valid: false,
                 customer: {
                     gender: 'female',
                     firstname: '',
                     lastname: '',
                     telephone: '',
-                    address: ''
+                    address: '',
+                    id: ''
                 },
-                services: [] as any[]
+                orderServices: [] as any[]
             },
             customerFound: false,
             customerResponse: {},
@@ -160,21 +181,45 @@ export default defineComponent({
             searching: false,
             showServices: true,
             customerAdding: false,
+            reserving: false
         }
     },
+    computed: {
+      validReservation (): boolean {
+        // we get the number of services in the order reservation
+        const numberOfServices = this.reservation.orderServices.length
+        // here we are getting an index validator to check if a certain service exists on the order services
+        const indexValidator = Math.floor(Math.random() * (numberOfServices - 1)) // a random number between 0 and the number of items
+        if (indexValidator >= 0) {
+          return !this.showServices && this.customerFound && this.reservation.orderServices[indexValidator] !== undefined
+        } else {
+          return false
+        }
+      }
+    },
     methods: {
-        handleServiceAdd (service = '') {
-            if (!this.reservation.services.includes(service)) {
-                this.reservation.services.push(service)
+      selectAttendant (name = '', serviceId = -1) {
+        // get the service from the service id passed
+        const service = this.reservation.orderServices.filter((x,i) => i === serviceId)[0]
+        service.attendant = name
+      },
+        handleServiceAdd (service: { order: any }) {
+          const serviceExists = this.reservation.orderServices.find((x) => x.order === service.order)
+            if (!serviceExists) {
+                this.reservation.orderServices.push(service)
             }
         },
-
         moveNextPage () {
             this.showServices = false;
             this.customerFound = true;
         },
+      backPage () {
+          this.showServices = true;
+          this.newCustomer = false;
+          this.searchResults = false
+          this.customerFound = false
+      },
         async searchCustomer (searchparam: string) {
-            console.log(searchparam)
             this.searching = true
             const searchObj = {
                 searchParam: searchparam
@@ -182,6 +227,7 @@ export default defineComponent({
             const searchRequest = await this.axios.post('/customer/search', searchObj)
             if (searchRequest.status == 200 && searchRequest.data.status !== 404) {
                 this.customerResponse = searchRequest.data
+                this.reservation.customer = searchRequest.data
                 this.customerFound = true,
                 this.searchResults = true,
                 this.searching = false
@@ -207,6 +253,24 @@ export default defineComponent({
             } else {
                 this.$alert.show({title: 'ERROR:', content: `${serverRequest.statusText}`})
             }
+        },
+
+        async handleReservation () {
+          // init the process
+          this.reserving = true
+          // handle reservation process
+          // let's create the reservation
+          const reservationObj = {
+            customer: this.reservation.customer.id,
+            services: this.reservation.orderServices
+          }
+          const reservationRequest = await this.axios.post('/customer/reservation/create', reservationObj )
+          const response = await reservationRequest.data
+          if (reservationRequest.status == 200) {
+            this.reserving = false
+            this.$emit('close-dialog')
+            this.$alert.show({title: '🎉 success', content: response.message})
+          }
         }
     }
 })
@@ -249,12 +313,12 @@ export default defineComponent({
     margin: 1.5em 0
 }
 .table-header {
-    grid-template-columns: 200px 250px 150px 150px;
+    grid-template-columns: 200px 250px 200px 200px;
     font-size: 80%;
     color: $input-outline
 }
 .table-body {
-    grid-template-columns: 200px auto 150px 150px;
+    grid-template-columns: 200px 250px 200px 200px;
     font-size: 11px;
 }
 </style>

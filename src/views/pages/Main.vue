@@ -15,9 +15,9 @@
               <div class="quick-actions flex align-center">
                 <Button text="Create reservation" class="secondary" icon="ic-plus.svg" @clicked="addReservation" />
                 <Popup class="add-reservation" ref="addreservation">
-                  <add-reservation />
+                  <add-reservation @close-dialog="closeDialog"/>
                 </Popup>
-                
+
                 <router-link to="/dashboard/reservations">View All</router-link>
               </div>
             </div>
@@ -66,9 +66,13 @@ export default defineComponent({
   },
   methods: {
     addReservation (): void {
-      // do something here.. possibly launch 
+      // do something here.. possibly launch
       const launchModal: any = this.$refs.addreservation
       launchModal.open()
+    },
+    closeDialog (): void {
+      const launchModal: any = this.$refs.addreservation
+      launchModal.close()
     }
   }
 

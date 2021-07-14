@@ -44,13 +44,21 @@ export default {
     }
     button {
         position: relative;
-        width: 29px;
+        min-width: 29px;
         height: 33px;
         cursor: pointer;
         border-radius: 10px;
-        // img {
-        //     filter: invert(100%);
-        // }
+        gap: 0;
+        transition: all .85s ease-in;
+        span {
+          display: inline-block;
+          font-size: 10px;
+          color: $body-bg;
+          padding: 0 .75em
+        }
+         img {
+             padding: 0 .75em;
+         }
     }
     input {
         width: 100%;

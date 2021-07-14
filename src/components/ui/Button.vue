@@ -36,10 +36,14 @@ export default defineComponent({
     }
     &.sm {
         padding: .5em 2em;
-        font-size: 1em;
+        font-size: 11px;
     }
     &.short {
-        padding: .5em 1em;
+      padding: .5em .75em;
+      gap: .5em;
+      img {
+        width: 15px;
+      }
     }
     &.inactive {
         background: $input-background !important;
