@@ -31,11 +31,14 @@
                     <di>Stylist</di>
                   </div>
                   <div>
-                    <TableRow clientName="Joyce Kamengele" timeAllocated="09.00 - 10.00" orderStatus="confirmed" service="Hair Dressing" stylist="Loise K."/>
-                    <TableRow :even="rowEven" clientName="Anna Mwongeli" timeAllocated="09.00 - 10.00" orderStatus="pending" service="Manicure" stylist="Loise K."/>
-                    <TableRow clientName="Catherine Mumo" timeAllocated="09.00 - 10.00" orderStatus="confirmed" service="Spa Service" stylist="Loise K."/>
-                    <TableRow :even="rowEven" clientName="Juliana Kaluki" timeAllocated="09.00 - 10.00" orderStatus="pending" service="Manicure" stylist="Syombua M"/>
-                     <TableRow clientName="Catherine Mumo" timeAllocated="09.00 - 10.00" orderStatus="confirmed" service="Spa Service" stylist="Loise K."/>
+                    <TableRow
+                        v-for="reservation of reservations"
+                        :key="reservation.id"
+                        :clientName="reservation.customer"
+                        :timeAllocated="reservation.time"
+                        orderStatus="confirmed"
+                        :service="reservation.service"
+                        :stylist="reservation.attendant"/>
                   </div>
                 </div>
               </div>
@@ -59,12 +62,42 @@ import AddReservation from './AddReservation.vue'
 
 export default defineComponent({
   components: { SummaryCard, Button, TableRow, Popup, AddReservation },
+  mounted() {
+    this.getReservationList()
+  },
   data () {
     return {
-      rowEven: true
+      rowEven: true,
+      reservations: [] as any[],
+      loading: false,
     }
   },
   methods: {
+    async getReservationList() {
+      // initiate the server request
+      this.loading = true
+      // get the reservations list
+      const request = await this.axios.get('/reservations/list')
+      const reservationOrders: any[] = request.data
+      reservationOrders.length = 5 // just get the top 5 items the rest can be picked later.. probably set this on the server
+      // we create a new array based on the reservation orders. we will split the reservation orders, to get the
+      // individual reservation items in the order
+      console.log(reservationOrders)
+      for (const order of reservationOrders) {
+        const customer = `${order.customer.firstname} ${order.customer.lastname}`
+        const services: any[] = order.services // we get a list of all the services within the order and make a reservation list based on them
+        services.forEach(service => {
+          // split up the service and get the appropriate pieces of ifo
+          const reservation = {
+            customer,
+            time: `${service.startTime} - ${service.endTime}`,
+            attendant: service.attendant.firstname,
+            service: service.service
+          }
+          this.reservations.push(reservation)
+        })
+      }
+    },
     addReservation (): void {
       // do something here.. possibly launch
       const launchModal: any = this.$refs.addreservation
@@ -72,6 +105,7 @@ export default defineComponent({
     },
     closeDialog (): void {
       const launchModal: any = this.$refs.addreservation
+      this.getReservationList()
       launchModal.close()
     }
   }

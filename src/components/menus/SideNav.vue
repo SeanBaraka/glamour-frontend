@@ -9,8 +9,8 @@
             <NavMenu>
               <MenuItem to="/dashboard/summary" icon="ic-home.svg">Dashboard</MenuItem>
               <MenuItem to="/dashboard/customers" icon="ic-customers.svg">Customers</MenuItem>
+              <MenuItem to="/dashboard/services" icon="ic-stylists.svg">Services</MenuItem>
               <MenuItem to="/dashboard/stylists" icon="ic-stylists.svg">Stylists</MenuItem>
-              <MenuItem to="/dashboard/stylists" icon="ic-stylists.svg">Services</MenuItem>
               <MenuItem to="/dashboard/schedule" icon="ic-schedule.svg">Schedule</MenuItem>
               <MenuItem to="/dashboard/reservations" icon="ic-calendar.svg">Reservations</MenuItem>
               <MenuItem to="/dashboard/settings" icon="ic-config.svg">Settings</MenuItem>

@@ -7,6 +7,7 @@ import Stylists from "@/views/pages/Stylists.vue"
 import Schedule from "@/views/pages/Schedule.vue"
 import Reservations from "@/views/pages/Reservations.vue"
 import ConfigSettings from "@/views/pages/ConfigSettings.vue"
+import Services from "@/views/pages/Services.vue"
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -33,6 +34,10 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: 'stylists',
         component: Stylists
+      },
+      {
+        path: 'services',
+        component: Services
       },
       {
         path: 'reservations',
