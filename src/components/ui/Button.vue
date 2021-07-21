@@ -66,6 +66,8 @@ export default defineComponent({
         border: none;
         outline: none;
         cursor: inherit;
+        width: 100%;
+        height: 100%
     }
     .reverse {
         transform: rotate(180deg);

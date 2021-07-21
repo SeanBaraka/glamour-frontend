@@ -1,6 +1,6 @@
 <template>
     <div class="add-reservation">
-        <div class="dialog-header">Create Reservation</div>
+            <div class="dialog-header">Create Reservation</div>
             <div class="client-search-results flex align-center">
                 <div class="flex align-center client-search" v-if="!newCustomer && !customerFound && !searchResults">
                     <!-- our custom client search input box -->
@@ -53,34 +53,11 @@
                     Select The Desired Service
                 </div>
                 <!-- the various categories of services -->
-                <div class="mgy-1 services-category">
-                    <div class="dialog-header xsm">Salon Services</div>
+                <div class="mgy-1 services-category" v-for="serviceCategory of serviceCategories" :key="serviceCategory">
+                    <div class="dialog-header xsm">{{serviceCategory.fullname}}</div>
                     <div class="services">
                         <!-- the various serives belonging to the specified category -->
-                        <select-pill @click="handleServiceAdd({order: 'crotcheting'})" label="Crotcheting" id="crotcheting"/>
-                        <select-pill @click="handleServiceAdd({order: 'weaving'})" label="Weaving" id="weaving"/>
-                        <select-pill @click="handleServiceAdd({ order: 'wash'})" label="Wash and Blow dry" id="wash"/>
-                        <select-pill @click="handleServiceAdd({order: 'treatment'})" label="Treatment" id="treat"/>
-                        <select-pill @click="handleServiceAdd({ order: 'dye'})" label="Dye" id="dye"/>
-                        <select-pill @click="handleServiceAdd({ order: 'coloring'})" label="Coloring" id="colouring"/>
-                        <select-pill @click="handleServiceAdd({ order: 'braiding'})" label="Braiding and Retouch" id="br"/>
-                        <!-- <select-pill label="Wash and Set" id="ws"/>
-                        <select-pill label="Own Retouch" id="or"/>
-                        <select-pill label="Retouch" id="retouch"/> -->
-                    </div>
-                </div>
-                <div class="mgy-1 services-category">
-                    <div class="dialog-header xsm">Beauty Services</div>
-                    <div class="services">
-                        <!-- the various serives belonging to the specified category -->
-                        <select-pill @click="handleServiceAdd({order: 'gel'})" label="Gel Polish" id="gel"/>
-                        <select-pill @click="handleServiceAdd({order: 'pedicure'})" label="Pedicure" id="pedi"/>
-                        <select-pill @click="handleServiceAdd({order: 'polish'})" label="Polish" id="pol"/>
-                        <select-pill @click="handleServiceAdd({order: 'stickons'})" label="Stickons / Gel" id="sg"/>
-                        <select-pill @click="handleServiceAdd({order: 'accrylics'})" label="Accrylics" id="acc"/>
-                        <select-pill @click="handleServiceAdd({order: 'wax'})" label="Waxing" id="wax"/>
-                        <select-pill @click="handleServiceAdd({order: 'heena'})" label="Heena" id="heena"/>
-                        <select-pill @click="handleServiceAdd({order: 'massage'})" label="Full body Massage" id="massage"/>
+                        <select-pill v-for="service of services.filter(x => x.category === serviceCategory.name)" :key="service.id" @click="handleServiceAdd({order: service.name})" :label="service.name" :id="service.id"/>
                     </div>
                 </div>
             </div>
@@ -127,13 +104,13 @@
         <div class="mgy-1 dialog-footer">
             <div class="text-center">
                 <div class="flex justify-center">
-<!--                    <Button text="Cancel" class="inactive sm" v-if="showServices && !customerFound" />-->
-                  <Button text="Back" class="inactive sm" @click="backPage" v-if="customerAdding || customerFound"/>
+                  <Button text="Back" class="inactive sm" @clicked="backPage" v-if="customerAdding || customerFound"/>
                   <Button @clicked="moveNextPage" postfix-icon="ic-back.svg" text="Next" class="primary sm" v-if="!validReservation"/>
-                  <Button @clicked="handleReservation" text="Reserve Service" class="primary sm" v-if="validReservation"/>
+                  <Button @clicked="handleReservation" text="Reserve Service" class="primary sm" v-if="validReservation && !reserving"/>
+                  <button-loader v-if="reserving" />
                 </div>
             </div>
-    </div>
+        </div>
 </template>
 
 <script lang="ts">
@@ -150,12 +127,14 @@ import InputDropDown from '@/components/ui/InputDropDown.vue'
 import InputDropDownItem from '@/components/ui/InputDropDownItem.vue'
 import DateInput from "@/components/ui/DateInput.vue";
 import TimeInput from "@/components/ui/TimeInput.vue";
+import ButtonLoader from '@/components/ui/ButtonLoader.vue'
 
 export default defineComponent({
   components: {
     TimeInput,
     DateInput,
-    InputButton, InfoPill, SelectPill, Button, ButtonGroup, ButtonItem, FormInput, SplitInput, InputDropDown, InputDropDownItem  },
+    InputButton, InfoPill, SelectPill, Button, ButtonGroup, ButtonItem, FormInput, SplitInput, InputDropDown, InputDropDownItem,
+    ButtonLoader  },
     data () {
         return {
           button:{
@@ -181,7 +160,9 @@ export default defineComponent({
             searching: false,
             showServices: true,
             customerAdding: false,
-            reserving: false
+            reserving: false,
+            serviceCategories: [] as any[],
+            services: []
         }
     },
     computed: {
@@ -197,7 +178,29 @@ export default defineComponent({
         }
       }
     },
+    mounted () {
+        setTimeout(() => {
+            this.getServices()
+        });
+    },
     methods: {
+        async getServices () {
+            // get all the services first
+            const request = await this.axios.get('/services/all')
+            const data = await request.data
+            this.services = data
+            for (const service of data) {
+                const serviceName: string = service.category
+                const formatedName = serviceName.charAt(0).toUpperCase() + serviceName.slice(1)
+                const category = {
+                    name: service.category,
+                    fullname: `${formatedName} Services`,
+                }
+                if (!this.serviceCategories.find(x => x.name === category.name)) {
+                    this.serviceCategories.push(category)
+                }
+            }
+        },
       selectAttendant (name = '', serviceId = -1) {
         // get the service from the service id passed
         const service = this.reservation.orderServices.filter((x,i) => i === serviceId)[0]
@@ -286,19 +289,6 @@ export default defineComponent({
     transition: all .75s ease-in-out
 }
 
-.dialog-header {
-    font-weight: $fw-bold;
-    font-size: 1.18em;
-    &.md {
-        font-size: 95%
-    }
-    &.sm  {
-        font-size: 90%;
-    }
-    &.xsm {
-        font-size: 75%;
-    }
-}
 .client-search-results {
     gap: 4em
 }

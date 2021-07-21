@@ -50,7 +50,7 @@ main {
     }
     &.justify-center {
         justify-content: center;
-    } 
+    }
     &.justify-between {
         justify-content: space-between;
     }
@@ -107,6 +107,21 @@ main {
     width: 90%;
     max-width: 840px;
     // margin: 0 auto
+}
+
+
+.dialog-header {
+    font-weight: $fw-bold;
+    font-size: 1.18em;
+    &.md {
+        font-size: 95%
+    }
+    &.sm  {
+        font-size: 90%;
+    }
+    &.xsm {
+        font-size: 75%;
+    }
 }
 
 .app-table {

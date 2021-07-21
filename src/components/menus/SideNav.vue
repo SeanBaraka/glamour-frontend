@@ -36,7 +36,7 @@ export default {
 aside {
   position: fixed;
   min-height: 100vh;
-  background: $secondary-bg;
+  background: $service-card-bg;
   width: 220px;
   box-shadow: .5em 0 2em rgba(0,0,0,.1);
   .navigation-menu {
