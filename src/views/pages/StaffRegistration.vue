@@ -13,7 +13,7 @@
           </div>
           <div class="mgy-2 flex align-center">
               <form-input @on-change="staff.nationalId = $event" placeholder="National ID" type="text" />
-              <form-input @on-change="staff.physicalAddress = $event" placeholder="Physical Address" type="text" />
+              <form-input @on-change="staff.address = $event" placeholder="Physical Address" type="text" />
           </div>
       </div>
       <div class="contact-details">
@@ -26,7 +26,7 @@
       <div class="services-offered mgy-2">
           <div class="dialog-header sm" style="margin: 0em 0 .5em">Services Offered</div>
           <div class="flex align-center">
-              <input-drop-down :placeholder="activeService || 'Select Attendant'">
+              <input-drop-down :placeholder="activeService || 'Select Services'">
                 <input-drop-down-item style="font-size: 11px" 
                 v-for="service of services" 
                 :key="service.id"
@@ -72,10 +72,11 @@ export default defineComponent({
                 firstname: '',
                 lastname: '',
                 nationalId: '',
-                physicalAddress: '',
+                address: '',
                 emailAddress: '',
                 telephone: '',
-                services: []
+                services: [],
+                avatar: '',
             }
         }
     },
@@ -96,9 +97,15 @@ export default defineComponent({
                 this.staff.services.push(this.activeService)
             }
         },
-        handleStaffAdd () {
+        async handleStaffAdd () {
             // do some stuff here
-            console.log(this.staff);
+            this.loading = true
+            const request = await this.axios.post('/add/new/staff', this.staff)
+            if (request.status == 200) {
+                this.$emit('on-complete')
+                const data = await request.data
+                this.$alert.show({title: 'success', content: `${data.message}`})
+            }
         }
     }
 })

@@ -82,10 +82,7 @@
                             <div class="mgy-2 grid table-row table-body" v-for="(service, index) of reservation.orderServices" :key="service.order">
                                 <div>{{service.order}}</div>
                                 <InputDropDown :placeholder="service.attendant || 'Select Attendant'">
-                                    <input-drop-down-item @click="selectAttendant('Loise', index)">Louise K</input-drop-down-item>
-                                    <input-drop-down-item @click="selectAttendant('Jennifer', index)">Jennifer</input-drop-down-item>
-                                    <input-drop-down-item @click="selectAttendant('Lynnet', index)">Lynnet M.</input-drop-down-item>
-                                    <input-drop-down-item @click="selectAttendant('Catherine', index)">Catherine</input-drop-down-item>
+                                    <input-drop-down-item v-for="attendant of attendants" :key="attendant.id" @click="selectAttendant(attendant.firstname, index)">{{attendant.firstname}}</input-drop-down-item>
                                 </InputDropDown>
                                 <div>
                                   <DateInput placeholder="dd/mm/yyyy" @on-changed="service.date = $event" />
@@ -162,7 +159,8 @@ export default defineComponent({
             customerAdding: false,
             reserving: false,
             serviceCategories: [] as any[],
-            services: []
+            services: [],
+            attendants: []
         }
     },
     computed: {
@@ -181,9 +179,15 @@ export default defineComponent({
     mounted () {
         setTimeout(() => {
             this.getServices()
+            this.getStaff();
         });
     },
     methods: {
+        async getStaff () {
+            const request = await this.axios.get('/staff/all')
+            const data = await request.data
+            this.attendants = data
+        },
         async getServices () {
             // get all the services first
             const request = await this.axios.get('/services/all')
